@@ -2,7 +2,7 @@
   "name": "medical-adherence-improved-with-digital-solutions-backend",
   "version": "1.0.0",
   "description": "A medical Application",
-  "main": "index.ts",
+  "main": "index.js",
   "scripts": {
     "dev": "nodemon",
     "build": "tsc",
