@@ -32,6 +32,23 @@ const healthProviderSchema =new Schema<Ihealthprovider>({
         type:String,
         required:true
     },
+    role:{
+        type:String,
+        default:"Doctor",
+        required:true
+      },
+      phoneNumber:{
+        type:String,
+        required:true
+      },
+      address:{
+          type:String,
+          required:false
+      },
+    sex:{
+        type:String,
+        required:true
+    },
     patients: [{
     type: Schema.Types.ObjectId,
     ref: 'Patient' 

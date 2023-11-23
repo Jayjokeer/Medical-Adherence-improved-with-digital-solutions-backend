@@ -14,3 +14,19 @@ export const findPatientByEmail= async (email:string)=>{
 export const findByHealthProviderById = async(id:string)=>{
     return await healthProviderModel.findById(id);
 };
+
+export const findPatientById= async(id:string)=>{
+   return patientModel.findById(id);
+};
+
+export const findPatientReminder = async() =>{
+    return await patientModel.find({ 'reminderPreferences.enableReminders': true });
+};
+export const findHealthProviderByEMail = async(email:string)=>{
+    return await healthProviderModel.findOne({email:email});
+};
+export const createHealthProvider =async(user:any)=>{
+    return await healthProviderModel.create(user);
+};
+
+  

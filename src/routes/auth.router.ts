@@ -1,10 +1,12 @@
 import {Router} from "express";
-import { createPatientController,loginPatientController } from "../controllers/authController";  
+import { createPatientController,loginPatientController,loginHealthProviderController,signupHealthProvider } from "../controllers/authController";  
 
 
 const authRouter = Router();
 
-authRouter.post("/create-user",createPatientController);
-authRouter.post("/login-user",loginPatientController);
+authRouter.post("/create-patient/:patientId",createPatientController);
+authRouter.post("/login-patient",loginPatientController);
+authRouter.post("/create-health-provider",signupHealthProvider);
+authRouter.post("/login-health-provider",loginHealthProviderController);
 
 export default authRouter;

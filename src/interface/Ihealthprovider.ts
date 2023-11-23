@@ -9,5 +9,9 @@ export interface Ihealthprovider{
     hospital:string;
     password?:string
     specialization: string;
+    role:string;
+    phoneNumber:string;
+    address:string;
+    sex:string;
     patients: Types.ObjectId[];
 }

@@ -5,7 +5,11 @@ export interface Ipatient extends Document{
     lastName : string;
     email:string;
     age:string;
-    password?:string,
+    password?:string;
+    sex:string;
+    role:string;
+    phoneNumber:string;
+    address:string;
     medications?: {
         drug?: string;
         dosage?: string;

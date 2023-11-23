@@ -24,6 +24,23 @@ const patientSchema =new Schema<Ipatient>({
         type:String,
         required:true
     },
+    sex:{
+      type:String,
+      required:true
+    },
+    role:{
+      type:String,
+      required:true,
+      default:"patient",
+    },
+    phoneNumber:{
+      type:String,
+      required:true
+    },
+    address:{
+        type:String,
+        required:false
+    },
     medications: [{
         drug: {
           type: String,

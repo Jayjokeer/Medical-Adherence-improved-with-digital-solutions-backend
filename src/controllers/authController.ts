@@ -3,7 +3,10 @@ import { encryptPassword, verifyPassword } from "../utils/helpers/encryption";
 import { createPatient,findPatientByEmail } from "../services/services";
 import {Ipatient} from "../interface/Ipatient";
 import { signedUser } from "../middlewares/jwt";
-import { findByHealthProviderById } from "../services/services";
+import { findByHealthProviderById,
+  findPatientById,
+  createHealthProvider,
+  findHealthProviderByEMail } from "../services/services";
 
 export const createPatientController = async(
     req:Request,
@@ -82,3 +85,77 @@ export const loginPatientController = async(
         return res.status(500).json({Error:"Internal Server error"})
     };
 };
+
+
+export const signupHealthProvider = async (req: Request, res: Response) => {
+  const {
+    firstName,
+    lastName,
+    email,
+    hospital,
+    age,
+    password,
+    specialization,
+  } = req.body;
+
+  try {
+    
+    const existingProvider = await  findHealthProviderByEMail(email);
+    if (existingProvider) {
+      return res.status(400).json({ error: 'Email already exists' });
+    }
+  
+    const hashedPwd = await encryptPassword(password); 
+
+    const newHealthProvider = {
+      firstName,
+      lastName,
+      email,
+      hospital,
+      age,
+      password: hashedPwd,
+      specialization,
+    };
+   const healthProvider = await createHealthProvider(newHealthProvider );
+
+    res.status(201).json({ message: 'Health provider signed up successfully', data: healthProvider });
+  } catch (error) {
+    console.error('Error occurred while signing up health provider:', error);
+    return res.status(500).json({ error: 'An error occurred while signing up health provider' });
+  }
+};
+
+export const loginHealthProviderController=async (req: Request, res: Response)=>{
+  const {email,password} = req.body
+    try{
+        const findEmail = await findHealthProviderByEMail(email)
+      if(!findEmail){
+        return res.status(403).json({
+            Error:"Email or password is incorrect"
+        })
+      };
+      const isVerifiedPassword = await verifyPassword(password, findEmail.password!)
+      if(!isVerifiedPassword){
+        return res.status(403).json({
+            Error:"Email or password is incorrect"
+        })
+      };
+      const payload ={
+        firstName:findEmail.firstName,
+        lastName:findEmail.lastName,
+        email:findEmail.email
+    };
+    const token = await signedUser(payload);
+
+      return res.status(200).json({
+        message:"Health Provider logged in successfully",
+        token
+      })
+     
+    }catch(error){
+        console.log("Error", error);
+        return res.status(500).json({Error:"Internal Server error"})
+    };
+}
+
+
