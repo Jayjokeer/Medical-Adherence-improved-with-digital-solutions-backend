@@ -12,7 +12,16 @@ export const createPatientController = async(
     req:Request,
     res:Response
 )=>{
-    const {firstName,lastName,password,email,age} = req.body
+    const {
+      firstName,
+      lastName,
+      password,
+      email,
+      age, 
+      phoneNumber,
+      sex,
+      address
+    } = req.body
     const {healthProviderId} = req.params
     try{
       const healthProvider = await findByHealthProviderById(healthProviderId);
@@ -33,7 +42,10 @@ export const createPatientController = async(
             password:hashedPwd,
             email,
             age,
-            healthProvider:healthProviderId
+            healthProvider:healthProviderId,
+            phoneNumber,
+            sex,
+            address
         }
         const createdPatient = await createPatient(patient);
        
@@ -71,7 +83,8 @@ export const loginPatientController = async(
       const payload ={
         firstName:findEmail.firstName,
         lastName:findEmail.lastName,
-        email:findEmail.email
+        email:findEmail.email,
+        role:findEmail.role
     };
     const token = await signedUser(payload);
 
@@ -96,6 +109,9 @@ export const signupHealthProvider = async (req: Request, res: Response) => {
     age,
     password,
     specialization,
+    phoneNumber,
+    sex,
+    address
   } = req.body;
 
   try {
@@ -115,6 +131,9 @@ export const signupHealthProvider = async (req: Request, res: Response) => {
       age,
       password: hashedPwd,
       specialization,
+      phoneNumber,
+      sex,
+      address
     };
    const healthProvider = await createHealthProvider(newHealthProvider );
 
@@ -143,7 +162,8 @@ export const loginHealthProviderController=async (req: Request, res: Response)=>
       const payload ={
         firstName:findEmail.firstName,
         lastName:findEmail.lastName,
-        email:findEmail.email
+        email:findEmail.email,
+        role:findEmail.role
     };
     const token = await signedUser(payload);
 
@@ -156,6 +176,6 @@ export const loginHealthProviderController=async (req: Request, res: Response)=>
         console.log("Error", error);
         return res.status(500).json({Error:"Internal Server error"})
     };
-}
+};
 
 

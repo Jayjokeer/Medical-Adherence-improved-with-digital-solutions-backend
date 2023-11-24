@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import { Request, Response, NextFunction } from 'express';
 import { AuthenticatedRequest } from '../interface/IaunthenticatedUser';
 
-export const authenticate = (
+export const authenticatePatient = (
 	req: AuthenticatedRequest,
 	res: Response,
 	next: NextFunction,
@@ -15,8 +15,12 @@ export const authenticate = (
 	try {
 		const decoded: any = jwt.verify(token, process.env.JWT_KEY || '')
 		req.user = decoded
-
-		next()
+		if(req.user.role === "patient"){
+			next();
+		}else{
+			return res.status(401).json({Error:"You are unauthorized"});
+		}
+		
 	} catch (error) {
 		return res.status(401).json({Error:"Internal server error",error});
 	}
