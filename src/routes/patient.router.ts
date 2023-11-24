@@ -1,9 +1,9 @@
 import {Router} from "express";
-import { addMedicationAndReminder } from "../controllers/patientController";
-import { authenticatePatient } from "../middlewares/verifyJWT";
+import { addMedicationAndReminder, getAllPatientsByHproviderId } from "../controllers/patientController";
+import { authenticateHProvider, authenticatePatient } from "../middlewares/verifyJWT";
 
-const router= Router();
+const patientRouter= Router();
 
-router.post("/add-reminder/:patientId",authenticatePatient,addMedicationAndReminder);
-
-export default router;
+patientRouter.post("/add-reminder/:patientId",authenticatePatient,addMedicationAndReminder);
+patientRouter.get("/get-all-patients/:healthProviderId",authenticateHProvider,getAllPatientsByHproviderId);
+export default patientRouter;

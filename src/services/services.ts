@@ -29,4 +29,6 @@ export const createHealthProvider =async(user:any)=>{
     return await healthProviderModel.create(user);
 };
 
-  
+export const findPatientsByHealthProviderById = async(providerId:string)=>{
+    return await patientModel.find({'healthProvider':providerId});
+};
