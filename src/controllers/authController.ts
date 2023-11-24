@@ -90,7 +90,8 @@ export const loginPatientController = async(
 
       return res.status(200).json({
         message:"Patient logged in successfully",
-        token
+        token,
+        user:findEmail
       })
      
     }catch(error){
@@ -169,7 +170,8 @@ export const loginHealthProviderController=async (req: Request, res: Response)=>
 
       return res.status(200).json({
         message:"Health Provider logged in successfully",
-        token
+        token,
+        user:findEmail
       })
      
     }catch(error){
